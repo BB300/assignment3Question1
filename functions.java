@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 public class functions {
 public static ArrayList<Student> getAllStudents() throws SQLException {
+    //This is the list of students that will be used for this function.
     var students = new ArrayList<Student>();
     //This sql statement represents the commands necessary to gets all of the students from the table.
     var sql = "SELECT student_id, first_name, last_name, email, enrollment_date FROM students ORDER BY last_name";
@@ -25,9 +26,12 @@ public static ArrayList<Student> getAllStudents() throws SQLException {
 
         }
     public static int addStudent(String first_name, String last_name, String email, String enrollment_date) {
+        //This is the command used to add the student to the array.
         var sql = "INSERT INTO students(first_name, last_name, email, enrollment_date) "
                 + "VALUES(?,?,?,?::date)";
         try (var connect =  DB.connect();
+             //The program creates the string using the given values, and update
+             //adds the string to the table.
              var update = connect.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
             update.setString(1, first_name);
             update.setString(2, last_name);
@@ -73,9 +77,10 @@ public static ArrayList<Student> getAllStudents() throws SQLException {
 
     }
 
-    public static int delete (int id) {
-
+    public static int deleteStudent (int id) {
+    //This is the command used to delete the student from the database.
     var sql  = "DELETE FROM students WHERE student_id=?";
+    //The code finds appropriate students using the id and deletes it.
     try (var connect  = DB.connect();
          var update = connect.prepareStatement(sql)) {
 
